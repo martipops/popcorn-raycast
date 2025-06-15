@@ -1,7 +1,6 @@
-import { ActionPanel, Action, List, Icon, getApplications, Application } from "@raycast/api";
+import { ActionPanel, Action, List, Icon, Application } from "@raycast/api";
 import { Stream, Media, Episode } from "../types";
 import { extractQualityFromTitle, extractSizeFromTitle, extractSourceFromTitle } from "../utils/streamUtils";
-import { usePromise } from "@raycast/utils";
 
 interface StreamListProps {
   streams: Stream[] | undefined;

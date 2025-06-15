@@ -10,7 +10,7 @@ import {
   Toast,
   useNavigation,
 } from "@raycast/api";
-import { use, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MediaType, Media, Episode, Preferences, RecentMedia } from "./types";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { useStremioApi } from "./hooks/useStremioApi";
@@ -29,7 +29,7 @@ export default function Command() {
   const { baseUrl } = preferences;
 
   const streamingAppsFromPreferences = useMemo(() => {
-    return !!preferences.streamingApps
+    return preferences.streamingApps
       ? preferences.streamingApps
           .toLowerCase()
           .split(",")
@@ -39,11 +39,11 @@ export default function Command() {
   }, [preferences.streamingApps]);
 
   const { data: applications } = usePromise(async () => await getApplications());
-    
+
   const streamingApps = useMemo(() => {
     if (!applications) return [];
-    return applications.filter((app) => streamingAppsFromPreferences
-      .includes(app.name.toLowerCase()))
+    return applications
+      .filter((app) => streamingAppsFromPreferences.includes(app.name.toLowerCase()))
       .sort((a, b) => {
         // Sort the applications based on their order in preferences
         const indexA = streamingAppsFromPreferences.indexOf(a.name.toLowerCase());
@@ -181,15 +181,7 @@ function EpisodesView({
 
   const handleEpisodeSelection = async (episode: Episode) => {
     await storage.saveEpisodeSelection(media.id, episode.id);
-    push(
-      <StreamsView
-        media={media}
-        episode={episode}
-        api={api}
-        storage={storage}
-        streamingApps={streamingApps}
-      />,
-    );
+    push(<StreamsView media={media} episode={episode} api={api} storage={storage} streamingApps={streamingApps} />);
   };
 
   const handleSeasonChange = async (season: string) => {
