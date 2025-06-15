@@ -1,13 +1,14 @@
-import { ActionPanel, Action, List, Icon } from "@raycast/api";
+import { ActionPanel, Action, List, Icon, getApplications, Application } from "@raycast/api";
 import { Stream, Media, Episode } from "../types";
 import { extractQualityFromTitle, extractSizeFromTitle, extractSourceFromTitle } from "../utils/streamUtils";
+import { usePromise } from "@raycast/utils";
 
 interface StreamListProps {
   streams: Stream[] | undefined;
   media: Media | null;
   episode?: Episode | null;
   isLoading: boolean;
-  streamingAppsArray: string[];
+  streamingAppsArray: Application[];
   isEpisodeWatched?: (episodeId: string) => boolean;
   markEpisodeAsWatched?: (episode: Episode, seriesId: string) => void;
   markEpisodeAsUnwatched?: (episode: Episode) => void;
@@ -86,12 +87,12 @@ export function StreamList({
               }
               actions={
                 <ActionPanel>
-                  {streamingAppsArray.map((app: string) => (
+                  {streamingAppsArray.map((app: Application) => (
                     <Action.Open
-                      key={`${app}`}
-                      title={`Open in ${app}`}
+                      key={`${app.bundleId}`}
+                      title={`Open in ${app.name}`}
                       target={stream.url}
-                      application={`${app}`}
+                      application={`${app.bundleId}`}
                       icon={Icon.Play}
                     />
                   ))}

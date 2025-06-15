@@ -1,20 +1,23 @@
 import {
   Alert,
+  Application,
   clearSearchBar,
   confirmAlert,
+  getApplications,
   getPreferenceValues,
   openCommandPreferences,
   showToast,
   Toast,
   useNavigation,
 } from "@raycast/api";
-import { useEffect, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { MediaType, Media, Episode, Preferences, RecentMedia } from "./types";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { useStremioApi } from "./hooks/useStremioApi";
 import { StreamList } from "./components/StreamList";
 import { EpisodeList } from "./components/EpisodeList";
 import { SearchResults } from "./components/SearchResults";
+import { usePromise } from "@raycast/utils";
 
 export default function Command() {
   const [mediaType, setMediaType] = useState<MediaType>("movie");
@@ -23,14 +26,31 @@ export default function Command() {
 
   // Load preferences
   const preferences = getPreferenceValues<Preferences>();
-  const { baseUrl, streamingApps } = preferences;
+  const { baseUrl } = preferences;
 
-  const streamingAppsArray = streamingApps
-    ? streamingApps
-        .split(",")
-        .map((app: string) => app.trim())
-        .filter((app: string) => app.length > 0)
-    : ["IINA", "VLC"];
+  const streamingAppsFromPreferences = useMemo(() => {
+    return !!preferences.streamingApps
+      ? preferences.streamingApps
+          .toLowerCase()
+          .split(",")
+          .map((app: string) => app.trim())
+          .filter((app: string) => app.length > 0)
+      : ["iina", "vlc"];
+  }, [preferences.streamingApps]);
+
+  const { data: applications } = usePromise(async () => await getApplications());
+    
+  const streamingApps = useMemo(() => {
+    if (!applications) return [];
+    return applications.filter((app) => streamingAppsFromPreferences
+      .includes(app.name.toLowerCase()))
+      .sort((a, b) => {
+        // Sort the applications based on their order in preferences
+        const indexA = streamingAppsFromPreferences.indexOf(a.name.toLowerCase());
+        const indexB = streamingAppsFromPreferences.indexOf(b.name.toLowerCase());
+        return indexA - indexB;
+      });
+  }, [applications]);
 
   // Hooks
   const api = useStremioApi(baseUrl);
@@ -60,10 +80,10 @@ export default function Command() {
 
     if (media.type === "movie") {
       // Push streams view for movies
-      push(<StreamsView media={media} api={api} storage={storage} streamingAppsArray={streamingAppsArray} />);
+      push(<StreamsView media={media} api={api} storage={storage} streamingApps={streamingApps} />);
     } else {
       // Push episodes view for series
-      push(<EpisodesView media={media} api={api} storage={storage} streamingAppsArray={streamingAppsArray} />);
+      push(<EpisodesView media={media} api={api} storage={storage} streamingApps={streamingApps} />);
     }
   };
 
@@ -137,12 +157,12 @@ function EpisodesView({
   media,
   api,
   storage,
-  streamingAppsArray,
+  streamingApps,
 }: {
   media: Media;
   api: ReturnType<typeof useStremioApi>;
   storage: ReturnType<typeof useLocalStorage>;
-  streamingAppsArray: string[];
+  streamingApps: Application[];
 }) {
   const [selectedSeason, setSelectedSeason] = useState<string>("all");
   const [showWatchedFilter, setShowWatchedFilter] = useState<"all" | "watched" | "unwatched">("all");
@@ -167,7 +187,7 @@ function EpisodesView({
         episode={episode}
         api={api}
         storage={storage}
-        streamingAppsArray={streamingAppsArray}
+        streamingApps={streamingApps}
       />,
     );
   };
@@ -206,13 +226,13 @@ function StreamsView({
   episode,
   api,
   storage,
-  streamingAppsArray,
+  streamingApps,
 }: {
   media: Media;
   episode?: Episode | null;
   api: ReturnType<typeof useStremioApi>;
   storage: ReturnType<typeof useLocalStorage>;
-  streamingAppsArray: string[];
+  streamingApps: Application[];
 }) {
   const { data: streamData, isLoading: isLoadingStreams } = api.useStreams(media, episode || null);
 
@@ -224,7 +244,7 @@ function StreamsView({
       isLoading={isLoadingStreams}
       isEpisodeWatched={storage.isEpisodeWatched}
       markEpisodeAsWatched={storage.markEpisodeAsWatched}
-      streamingAppsArray={streamingAppsArray}
+      streamingAppsArray={streamingApps}
       markEpisodeAsUnwatched={storage.markEpisodeAsUnwatched}
       onConfigure={() => openCommandPreferences()}
     />
