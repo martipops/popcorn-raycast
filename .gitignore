@@ -17,3 +17,5 @@ PopcornIcon.psd
 
 sync.sh
 src.bak/
+prepare_release.sh
+releases/
