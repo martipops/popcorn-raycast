@@ -101,6 +101,7 @@ export function SearchResults({
             title={getMediaTypeToggle()}
             onAction={handleMediaTypeToggle}
             shortcut={{ modifiers: ["cmd"], key: "e" }}
+            icon={Icon.Switch}
           />
           <Action title="Configure" onAction={onConfigure} icon={Icon.Gear} />
           <Action title="Clear Recent Items" onAction={onClearRecent} style={Action.Style.Destructive} />
