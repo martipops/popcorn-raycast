@@ -59,10 +59,7 @@ export function StreamList({
       }
     >
       {!streams || streams.length === 0 ? (
-        <List.EmptyView
-          title="No Streams Available"
-          description="There are no streams available for this media."
-        />
+        <List.EmptyView title="No Streams Available" description="There are no streams available for this media." />
       ) : (
         <List.Section title="Available Streams" subtitle={`${streams.length} streams`}>
           {streams.map((stream, index) => (
@@ -89,7 +86,7 @@ export function StreamList({
               }
               actions={
                 <ActionPanel>
-                  {streamingAppsArray.map((app: String) => (
+                  {streamingAppsArray.map((app: string) => (
                     <Action.Open
                       key={`${app}`}
                       title={`Open in ${app}`}

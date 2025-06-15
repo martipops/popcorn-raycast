@@ -50,7 +50,7 @@ export function SearchResults({
   function MediaActions({ media, isRecent }: { media: Media | RecentMedia; isRecent?: boolean }) {
     return (
       <ActionPanel>
-        {isUsingAddon ? <Action  title="Show Streams" onAction={() => onMediaSelect(media)} icon={Icon.Link} /> : null}
+        {isUsingAddon ? <Action title="Show Streams" onAction={() => onMediaSelect(media)} icon={Icon.Link} /> : null}
         <Action.OpenInBrowser title="Open IMDB Page" url={`https://www.imdb.com/title/${media.imdb_id}`} />
         <Action
           title={getMediaTypeToggle()}
@@ -66,7 +66,12 @@ export function SearchResults({
               style={Action.Style.Destructive}
               icon={Icon.MinusCircle}
             />
-            <Action title="Clear All Recent Items" onAction={onClearRecent} style={Action.Style.Destructive} icon={Icon.Trash} />
+            <Action
+              title="Clear All Recent Items"
+              onAction={onClearRecent}
+              style={Action.Style.Destructive}
+              icon={Icon.Trash}
+            />
           </>
         )}
         <Action title="Configure" onAction={onConfigure} icon={Icon.Gear} />

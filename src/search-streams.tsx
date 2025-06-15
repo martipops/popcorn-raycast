@@ -25,11 +25,12 @@ export default function Command() {
   const preferences = getPreferenceValues<Preferences>();
   const { baseUrl, streamingApps } = preferences;
 
-  const streamingAppsArray = streamingApps ?
-    streamingApps.split(",")
-      .map((app: string) => app.trim())
-      .filter((app: string) => app.length > 0) :
-    ["IINA", "VLC"];
+  const streamingAppsArray = streamingApps
+    ? streamingApps
+        .split(",")
+        .map((app: string) => app.trim())
+        .filter((app: string) => app.length > 0)
+    : ["IINA", "VLC"];
 
   // Hooks
   const api = useStremioApi(baseUrl);
@@ -132,7 +133,12 @@ export default function Command() {
   );
 }
 
-function EpisodesView({ media, api, storage, streamingAppsArray }: {
+function EpisodesView({
+  media,
+  api,
+  storage,
+  streamingAppsArray,
+}: {
   media: Media;
   api: ReturnType<typeof useStremioApi>;
   storage: ReturnType<typeof useLocalStorage>;
@@ -155,7 +161,15 @@ function EpisodesView({ media, api, storage, streamingAppsArray }: {
 
   const handleEpisodeSelection = async (episode: Episode) => {
     await storage.saveEpisodeSelection(media.id, episode.id);
-    push(<StreamsView media={media} episode={episode} api={api} storage={storage} streamingAppsArray={streamingAppsArray} />);
+    push(
+      <StreamsView
+        media={media}
+        episode={episode}
+        api={api}
+        storage={storage}
+        streamingAppsArray={streamingAppsArray}
+      />,
+    );
   };
 
   const handleSeasonChange = async (season: string) => {
@@ -187,7 +201,13 @@ function EpisodesView({ media, api, storage, streamingAppsArray }: {
 }
 
 // Separate component for streams view
-function StreamsView({ media, episode, api, storage, streamingAppsArray }: {
+function StreamsView({
+  media,
+  episode,
+  api,
+  storage,
+  streamingAppsArray,
+}: {
   media: Media;
   episode?: Episode | null;
   api: ReturnType<typeof useStremioApi>;
