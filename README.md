@@ -19,14 +19,23 @@ A Raycast extension that uses the Stremio API to search for movies and TV shows 
 
 ## Setup
 
-Currently this extension is not published to the Raycast extension store
+Currently this extension is under review and has not yet been accepted on the Raycast extension store.
 
-1. [Download](https://github.com/martipops/popcorn-raycast/archive/refs/heads/main.zip) or clone this repository
-    - If you downloaded the .zip file, extract it to a folder in a safe place
-2. In Raycast, search for "Import Extension"
-3. Select the repository folder and install.
-4. Configure your Stremio addon URL in the extensions preferences (e.g., `https://your-addon.com/manifest.json`)
-5. Start searching for content!
+If you would like to install it before it is accepted, follow the instructions below.
+
+1. Install Node.js
+   - Option A: Download from https://nodejs.org/
+   - Option B: Use brew `brew install node`
+2. [Download](https://github.com/martipops/popcorn-raycast/archive/refs/heads/main.zip) or clone this repository
+    - If you downloaded the .zip file, extract it to a folder in a safe place (e.g. Documents folder)
+2. Open Terminal and navigate to the extracted directory
+   - EX. `cd ~/Documents/popcorn-raycast-main`
+3. Build the application by running `npm i; npm run build` (You should only need to do this once)
+4. Open Raycast and search for "Import Extension"
+5. Find and select the extension folder.
+6. Configure your Stremio addon URL in the extensions preferences (e.g., `https://your-addon.com/manifest.json`)
+7. Start searching for content!
+
 
 ## Usage
 
