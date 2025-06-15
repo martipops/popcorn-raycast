@@ -36,6 +36,13 @@ If you would like to install it before it is accepted, follow the instructions b
 6. Configure your Stremio addon URL in the extensions preferences (e.g., `https://your-addon.com/manifest.json`)
 7. Start searching for content!
 
+### Troubleshooting
+
+#### "Could not find command's executable JS file"
+If you get this error, `npm install; npm run build` did not execute properly.
+1. Make sure node is installed: `npm -v` returns a version number
+2. Navigate to the project directory and run `npm install; npm run build`
+3. If the extension still doesn't work, run `npm run dev` and the extension should automatically pop up. You shouldn't have to keep that command running in the backround.
 
 ## Usage
 
