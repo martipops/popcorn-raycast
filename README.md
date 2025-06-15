@@ -9,6 +9,8 @@
 
 A Raycast extension that uses the Stremio API to search for movies and TV shows and stream them to local media players using Stremio addons. IINA is highly recommended for macOS users.
 
+> <a href="https://ko-fi.com/martipops"><img src=https://github.githubassets.com/assets/ko_fi-53a60c17e75c.svg width="12"/> If you enjoy this extension, consider buying me a coffee!</a>
+
 ## Features
 
 - Search for movies and TV series
