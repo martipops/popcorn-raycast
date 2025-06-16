@@ -169,11 +169,9 @@ export default function Command() {
       mediaType={mediaType}
       searchText={searchText}
       searchResults={searchResults || []}
-      recentMedia={storage.recentMedia}
       trendingMedia={trendingMedia || []}
       isUsingAddon={isUsingAddon}
       isLoading={isLoadingSearch || isLoadingTrending}
-      getWatchedCount={storage.getWatchedCount}
       onSearchTextChange={(text) => setSearchText(text)}
       onMediaTypeChange={handleMediaTypeChange}
       onMediaSelect={handleMediaSelection}
@@ -239,12 +237,6 @@ function EpisodesView({
       selectedSeason={selectedSeason}
       showWatchedFilter={showWatchedFilter}
       isLoading={isLoadingSeriesDetails}
-      isEpisodeWatched={storage.isEpisodeWatched}
-      getWatchedCount={storage.getWatchedCount}
-      watchedEpisodes={storage.watchedEpisodes}
-      markEpisodeAsWatched={storage.markEpisodeAsWatched}
-      markEpisodeAsUnwatched={storage.markEpisodeAsUnwatched}
-      markSeasonAsWatched={storage.markSeasonAsWatched}
       onEpisodeSelect={handleEpisodeSelection}
       onSeasonChange={handleSeasonChange}
       onWatchedFilterChange={handleWatchedFilterChange}
