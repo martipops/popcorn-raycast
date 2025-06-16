@@ -108,7 +108,6 @@ export function EpisodeList({
       isShowingDetail
       actions={
         <ActionPanel>
-          <Action title={getFilterToggleTitle()} onAction={handleFilterToggle} icon={getFilterIcon()} />
           <Action title="Configure" onAction={onConfigure} icon={Icon.Gear} />
         </ActionPanel>
       }
@@ -209,6 +208,7 @@ export function EpisodeList({
                             )}
                           </>
                         )}
+                        <Action title={getFilterToggleTitle()} onAction={handleFilterToggle} icon={getFilterIcon()} shortcut={{ modifiers: ["cmd", "shift"], key: "f" }} />
                         <Action title="Configure" onAction={onConfigure} icon={Icon.Gear} />
                       </ActionPanel>
                     }
