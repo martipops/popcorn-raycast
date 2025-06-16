@@ -77,9 +77,9 @@ export function EpisodeList({
   };
 
   const getFilterIcon = () => {
-    if (showWatchedFilter === "all") return "👁";
-    if (showWatchedFilter === "unwatched") return "✅";
-    return "❌";
+    if (showWatchedFilter === "all") return Icon.EyeDisabled;
+    if (showWatchedFilter === "unwatched") return Icon.Eye;
+    return Icon.CheckList;
   };
 
   const handleFilterToggle = () => {
