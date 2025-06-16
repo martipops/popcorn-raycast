@@ -34,14 +34,14 @@ export default function Command() {
   const { checkTermsAccepted } = useTermsAcceptance();
 
   const streamingAppsFromPreferences = useMemo(() => {
-    return preferences.streamingApps
-      ? preferences.streamingApps
+    return preferences.alternativeStreamingApps
+      ? preferences.alternativeStreamingApps
         .toLowerCase()
         .split(",")
         .map((app: string) => app.trim())
         .filter((app: string) => app.length > 0)
       : ["iina", "vlc"];
-  }, [preferences.streamingApps]);
+  }, [preferences.alternativeStreamingApps]);
 
   const { data: applications } = usePromise(async () => await getApplications());
 
@@ -92,10 +92,10 @@ export default function Command() {
 
     if (media.type === "movie") {
       // Push streams view for movies
-      push(<StreamsView media={media} api={api} storage={storage} streamingApps={streamingApps} />);
+      push(<StreamsView media={media} api={api} storage={storage} defaultStreamingApp={preferences.defaultStreamingApp} streamingApps={streamingApps} />);
     } else {
       // Push episodes view for series
-      push(<EpisodesView media={media} api={api} storage={storage} streamingApps={streamingApps} />);
+      push(<EpisodesView media={media} api={api} storage={storage} defaultStreamingApp={preferences.defaultStreamingApp} streamingApps={streamingApps} />);
     }
   };
 
@@ -188,11 +188,13 @@ function EpisodesView({
   media,
   api,
   storage,
+  defaultStreamingApp,
   streamingApps,
 }: {
   media: Media;
   api: ReturnType<typeof useStremioApi>;
   storage: ReturnType<typeof useLocalStorage>;
+  defaultStreamingApp: Application;
   streamingApps: Application[];
 }) {
   const [selectedSeason, setSelectedSeason] = useState<string>("all");
@@ -215,7 +217,7 @@ function EpisodesView({
 
   const handleEpisodeSelection = async (episode: Episode) => {
     await storage.saveEpisodeSelection(media.id, episode.id);
-    push(<StreamsView media={media} episode={episode} api={api} storage={storage} streamingApps={streamingApps} />);
+    push(<StreamsView media={media} episode={episode} api={api} storage={storage} defaultStreamingApp={defaultStreamingApp} streamingApps={streamingApps} />);
   };
 
   const handleSeasonChange = async (season: string) => {
@@ -257,12 +259,14 @@ function StreamsView({
   episode,
   api,
   storage,
+  defaultStreamingApp,
   streamingApps,
 }: {
   media: Media;
   episode?: Episode | null;
   api: ReturnType<typeof useStremioApi>;
   storage: ReturnType<typeof useLocalStorage>;
+  defaultStreamingApp: Application;
   streamingApps: Application[];
 }) {
   const { data: streamData, isLoading: isLoadingStreams } = api.useStreams(media, episode || null);
@@ -274,6 +278,7 @@ function StreamsView({
       isLoading={isLoadingStreams}
       isEpisodeWatched={storage.isEpisodeWatched}
       markEpisodeAsWatched={storage.markEpisodeAsWatched}
+      defaultStreamingApp={defaultStreamingApp}
       streamingAppsArray={streamingApps}
       markEpisodeAsUnwatched={storage.markEpisodeAsUnwatched}
       onConfigure={() => openCommandPreferences()}
