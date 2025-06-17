@@ -12,7 +12,6 @@ interface StreamListProps {
   isEpisodeWatched?: (episodeId: string) => boolean;
   markEpisodeAsWatched?: (episode: Episode, seriesId: string) => void;
   markEpisodeAsUnwatched?: (episode: Episode) => void;
-  onConfigure: () => void;
 }
 
 export function StreamList({
@@ -25,7 +24,6 @@ export function StreamList({
   streamingAppsArray,
   markEpisodeAsWatched,
   markEpisodeAsUnwatched,
-  onConfigure,
 }: StreamListProps) {
   const title = media
     ? media.type === "movie"
@@ -80,7 +78,6 @@ export function StreamList({
               icon={watched ? Icon.EyeDisabled : Icon.Eye}
             />
           )}
-          <Action title="Configure" onAction={onConfigure} icon={Icon.Gear} />
         </ActionPanel>
       }
     >
@@ -148,7 +145,6 @@ export function StreamList({
                       icon={watched ? Icon.EyeDisabled : Icon.Eye}
                     />
                   )}
-                  <Action title="Configure" onAction={onConfigure} icon={Icon.Gear} />
                 </ActionPanel>
               }
             />

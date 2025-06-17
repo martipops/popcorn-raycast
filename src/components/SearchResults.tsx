@@ -15,7 +15,6 @@ interface SearchResultsProps {
   onRemoveFromRecent: (media: RecentMedia) => void;
   onClearRecent: () => void;
   onClearWatchHistory: () => void;
-  onConfigure: () => void;
 }
 
 export function SearchResults({
@@ -31,7 +30,6 @@ export function SearchResults({
   onRemoveFromRecent,
   onClearRecent,
   onClearWatchHistory,
-  onConfigure,
 }: SearchResultsProps) {
   const { getWatchedCount, recentMedia } = useLocalStorage();
   // Filter recent media by current media type
@@ -49,7 +47,7 @@ export function SearchResults({
     return (
       <ActionPanel>
         {isUsingAddon ? <Action title="Show Streams" onAction={() => onMediaSelect(media)} icon={Icon.Link} /> : null}
-        <Action.OpenInBrowser title="Open Imdb Page" url={`https://www.imdb.com/title/${media.imdb_id}`} />
+        <Action.OpenInBrowser title="Open IMDB Page" url={`https://www.imdb.com/title/${media.imdb_id}`} />
         <Action
           title={getMediaTypeToggle()}
           onAction={handleMediaTypeToggle}
@@ -72,7 +70,6 @@ export function SearchResults({
             />
           </>
         )}
-        <Action title="Configure" onAction={onConfigure} icon={Icon.Gear} />
       </ActionPanel>
     );
   }
@@ -101,7 +98,6 @@ export function SearchResults({
             shortcut={{ modifiers: ["cmd"], key: "e" }}
             icon={Icon.Switch}
           />
-          <Action title="Configure" onAction={onConfigure} icon={Icon.Gear} />
           <Action title="Clear Recent Items" onAction={onClearRecent} style={Action.Style.Destructive} />
           <Action title="Clear Watch History" onAction={onClearWatchHistory} style={Action.Style.Destructive} />
         </ActionPanel>
@@ -137,7 +133,6 @@ export function SearchResults({
         <List.Section title="Trending" subtitle="Top trending items">
           {trendingMedia.map((media) => {
             const watchedCount = media.type === "series" ? getWatchedCount(media.id) : 0;
-
             return (
               <List.Item
                 key={`trending-${media.id}`}
