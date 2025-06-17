@@ -1,5 +1,7 @@
 <h1><img src="/assets/extension-icon.png" width="25" height="25"/>  Popcorn for Raycast</h1>
 
+> [!WARNING]
+>  This extension is now on the [Raycast store](https://www.raycast.com/martipops/popcorn), so this repository will no longer be updated. You can find Raycast's extension repository [here](https://github.com/raycast/extensions) to report any issues
 
 <div>
   <img src="/metadata/popcorn-1.png" width="30%"/>
@@ -22,8 +24,6 @@ A Raycast extension that uses the Stremio API to search for movies and TV shows 
 - Copy stream URLs to clipboard
 
 ## Installation
-
-> **Note**: This extension is currently under review and has not yet been accepted on the Raycast extension store.
 
 ### Step 1: Download the Extension
 
