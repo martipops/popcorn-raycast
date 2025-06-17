@@ -36,13 +36,28 @@ export function StreamList({
   const watched = episode && isEpisodeWatched ? isEpisodeWatched(episode.id) : false;
 
   const openInApplication = async (stream: Stream, app: Application) => {
-    console.log(`Opening stream! \nNAME: ${app.name},\nURL: ${stream.url}\nBundle ID: ${app.bundleId}\nPATH: ${app.path}`);
-    try{ 
+    console.log(
+      `Opening stream! \nNAME: ${app.name},\nURL: ${stream.url}\nBundle ID: ${app.bundleId}\nPATH: ${app.path}`,
+    );
+    try {
       await open(stream.url, app);
     } catch (error) {
-      console.error("Failed to open stream in application:", error);
+      console.error(`Failed to open stream in ${app.name}:`, error);
+      if (!stream.url) {
+        await showToast({
+          style: Toast.Style.Failure,
+          title: "No Stream URL",
+          message: "You may need an API key to access streams. Check your addon configuration.",
+        });
+        return;
+      }
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "Failed to Open Stream",
+        message: `Could not open ${stream.url} URL in ${app.name}.`,
+      });
     }
-  }
+  };
 
   return (
     <List

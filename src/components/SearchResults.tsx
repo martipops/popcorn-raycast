@@ -33,11 +33,7 @@ export function SearchResults({
   onClearWatchHistory,
   onConfigure,
 }: SearchResultsProps) {
-
-  const { 
-    getWatchedCount,
-    recentMedia
-  } = useLocalStorage();
+  const { getWatchedCount, recentMedia } = useLocalStorage();
   // Filter recent media by current media type
   const filteredRecentMedia = recentMedia.filter((media) => media.type === mediaType).slice(0, 10);
 
@@ -53,7 +49,7 @@ export function SearchResults({
     return (
       <ActionPanel>
         {isUsingAddon ? <Action title="Show Streams" onAction={() => onMediaSelect(media)} icon={Icon.Link} /> : null}
-        <Action.OpenInBrowser title="Open IMDB Page" url={`https://www.imdb.com/title/${media.imdb_id}`} />
+        <Action.OpenInBrowser title="Open Imdb Page" url={`https://www.imdb.com/title/${media.imdb_id}`} />
         <Action
           title={getMediaTypeToggle()}
           onAction={handleMediaTypeToggle}
